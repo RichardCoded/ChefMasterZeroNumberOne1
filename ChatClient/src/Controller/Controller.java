@@ -13,7 +13,7 @@ import Model.Message;
 
 public class Controller implements Runnable
 {
-	//SUPER COOLE AENDERUNG BRO!
+	//SUPER COOLE AENDERUNG BRO! 
 	//private Attribute
 	private ObjectInputStream _input;
     private ObjectOutputStream _output;
