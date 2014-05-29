@@ -5,9 +5,13 @@ import java.awt.GridBagLayout;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.JScrollPane;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JTextPane;
+
 import java.awt.Insets;
+
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.border.TitledBorder;
@@ -15,17 +19,27 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JButton;
+
 import java.awt.Component;
+
 import javax.swing.Box;
+
 import java.awt.Dimension;
+
 import javax.swing.JMenuItem;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+
 import javax.swing.AbstractListModel;
+
+import Controller.Controller;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JScrollPane spChatlog;
@@ -51,7 +65,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JTextField txtMainlobby;
 	private JTextField txtUser;
 
-	public MainFrame() {
+	public MainFrame(Controller controller) {
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -111,17 +125,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		setVisible(true);
 	}
 
-	@Override
-	public void ChatMessageEmpfangen(String message) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void InServerEingeloggt() {
-		// TODO Auto-generated method stub
-
-	}
+	
 	private JScrollPane getSpChatlog() {
 		if (spChatlog == null) {
 			spChatlog = new JScrollPane();
@@ -330,5 +334,61 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			txtUser.setColumns(10);
 		}
 		return txtUser;
+	}
+
+
+	@Override
+	public void ChatMessageEmpfangen(String message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void BenutzerListeErhalten(ArrayList<String> users) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void RaeumeListeErhalten(ArrayList<String> rooms) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void LoginErgebnis(boolean status, String result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void LogoutErgebnis(boolean status, String result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void RegistrierungErgebnis(boolean status, String result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void JoinErgebnis(boolean result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void LeaveErgebnis(boolean result) {
+		// TODO Auto-generated method stub
+		
 	}
 }
