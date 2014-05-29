@@ -24,6 +24,8 @@ import javax.swing.JPanel;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.AbstractListModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JScrollPane spChatlog;
@@ -237,30 +239,55 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JMenuItem getMntmCommandlist() {
 		if (mntmCommandlist == null) {
 			mntmCommandlist = new JMenuItem("Commandlist");
+			mntmCommandlist.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new CommandlistDialog(MainFrame.this);
+				}
+			});
 		}
 		return mntmCommandlist;
 	}
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About");
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new AboutDialog(MainFrame.this);
+				}
+			});
 		}
 		return mntmAbout;
 	}
 	private JMenuItem getMntmLogin() {
 		if (mntmLogin == null) {
 			mntmLogin = new JMenuItem("Login");
+			mntmLogin.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					new LoginDialog(MainFrame.this);
+				}
+			});
 		}
 		return mntmLogin;
 	}
 	private JMenuItem getMntmRegister() {
 		if (mntmRegister == null) {
 			mntmRegister = new JMenuItem("Register");
+			mntmRegister.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new RegisterDialog(MainFrame.this);
+				}
+			});
 		}
 		return mntmRegister;
 	}
 	private JMenuItem getMntmClose() {
 		if (mntmClose == null) {
 			mntmClose = new JMenuItem("Close");
+			mntmClose.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					MainFrame.this.dispose();
+				}
+			});
 		}
 		return mntmClose;
 	}
