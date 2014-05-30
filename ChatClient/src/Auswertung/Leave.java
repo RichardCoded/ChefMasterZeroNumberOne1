@@ -12,7 +12,7 @@ public class Leave implements IMessageAuswerten
 	}
 	
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{
 				
 	}

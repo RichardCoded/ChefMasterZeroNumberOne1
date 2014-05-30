@@ -12,9 +12,9 @@ public class Registrierung implements IMessageAuswerten
 	}
 
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{
-				
+		
 	}
 
 }

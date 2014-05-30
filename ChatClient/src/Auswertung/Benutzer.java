@@ -14,7 +14,7 @@ public class Benutzer extends AbstractAuswertung {
 	}
 
 	@Override
-	public void Auswerten(Message message)
+	public void auswerten(Message message)
 	{
 		ArrayList<String> ergebnis = new ArrayList<String>();
 		if(message.getContent().contains(";"))
@@ -35,8 +35,8 @@ public class Benutzer extends AbstractAuswertung {
 			//return;
 		}
 		
-		//Der View die Liste ergebnis übergeben:
-		//_view.aktualisiereBenutzer();
+		//Der View die Liste ergebnis übergeben, zum Beispiel: 
+		//_view.aktualisiereBenutzer(ergebnis);
 	}
 
 	@Override

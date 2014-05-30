@@ -12,29 +12,9 @@ public class Nachricht extends AbstractAuswertung {
 	}
 
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{
-		String ergebnis;
-		
-		if(!message.getReceiver().isEmpty())
-		{
-			ergebnis = "["+message.getSender() + " > " + message.getReceiver()+" : "+message.getContent();
-		}
-		else if(!message.getRoom().isEmpty())
-		{
-			ergebnis = message.getSender() + ": " + message.getContent();
-		}
-		else if(message.getRoom().isEmpty() && message.getReceiver().isEmpty())
-		{
-			//Wenn beide leer, dann Nachricht verwerfen:
-			return;
-			//throw new IllegalArgumentException("Server ist schwul, weil Raum und Empfänger leer sind.");
-		}
-		
-		
-		//Die Gui-Methode zum Aktualisieren der GUI in Bezug auf diese Nachricht aufrufen
-		//z.B.:
-		//window.NewMessageArrived(String ergebnis);
+		//this._view.entsprechendeMethode(StaticServerAnswerResources.getChatOutputEvaluated(message));		
 	}
 
 	@Override

@@ -4,5 +4,5 @@ import Model.Message;
 
 public interface IMessageAuswerten 
 {
-	void Auswerten(Message message);
+	void auswerten(Message message);
 }

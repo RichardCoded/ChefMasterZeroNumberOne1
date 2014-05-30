@@ -74,7 +74,7 @@ public class Controller implements Runnable
 				{
 					if(kriterium.getType() == message.getType())
 					{
-						kriterium.Auswerten(message);
+						kriterium.auswerten(message);
 					}
 				}				
 			} 

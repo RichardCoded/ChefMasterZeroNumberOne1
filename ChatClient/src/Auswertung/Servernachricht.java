@@ -28,13 +28,13 @@ public class Servernachricht extends AbstractAuswertung {
 	}
 
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{		
 		for(IMessageAuswerten auswertungsklasse : this._servermessages)
 		{
 			if(message.getContent().contains(auswertungsklasse.getClass().getSimpleName()))
 			{
-				auswertungsklasse.Auswerten(message);
+				auswertungsklasse.auswerten(message);
 			}
 		}
 	}

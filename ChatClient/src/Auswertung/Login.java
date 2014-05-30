@@ -12,8 +12,16 @@ public class Login implements IMessageAuswerten
 	}
 		
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{
+		if(message.getContent().contains(StaticServerAnswerResources.Erfolgreich))
+		{
+			//this._view.entsprechendeMethode(true, StaticServerAnswerResources.getChatOutputEvaluated(message));
+		}
+		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
+		{
+			//this._view.entsprechendeMethode(false, StaticServerAnswerResources.getChatOutputEvaluated(message));
+		}
 		
 	}
 	

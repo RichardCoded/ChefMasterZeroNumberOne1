@@ -12,9 +12,8 @@ public class Join implements IMessageAuswerten
 	}
 
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{
-		
 		
 	}
 

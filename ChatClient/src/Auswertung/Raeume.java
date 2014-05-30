@@ -13,7 +13,7 @@ public class Raeume extends AbstractAuswertung {
 	}
 
 	@Override
-	public void Auswerten(Message message) 
+	public void auswerten(Message message) 
 	{
 		ArrayList<String> ergebnis = new ArrayList<String>();
 		if(message.getContent().contains(";"))
@@ -30,12 +30,12 @@ public class Raeume extends AbstractAuswertung {
 		}
 		else if(message.getReceiver().isEmpty())
 		{
-			//Server ist schwul?
+			//der Receiver wird eigentlich nicht benötigt.
 			//return;
 		}
 		
 		// Der View die Liste ergebnis übergeben:
-		// _view.aktualisiereBenutzer();
+		// _view.aktualisiereBenutzerliste(ergebnis);
 	}
 
 	@Override
