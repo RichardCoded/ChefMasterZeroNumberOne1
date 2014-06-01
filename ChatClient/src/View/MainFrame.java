@@ -35,7 +35,15 @@ import java.awt.GridLayout;
 
 import javax.swing.AbstractListModel;
 
+import Auswertung.AbstractAuswertung;
+import Auswertung.Benutzer;
+import Auswertung.IMessageAuswerten;
+import Auswertung.Nachricht;
+import Auswertung.Raeume;
+import Auswertung.Registrierung;
+import Auswertung.Servernachricht;
 import Controller.Controller;
+import Model.Message;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -65,8 +73,29 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JTextField txtMainlobby;
 	private JTextField txtUser;
 
-	public MainFrame(Controller controller) {
-
+	private Controller _controller;
+	private ArrayList<AbstractAuswertung> _auswertungskriterien;
+	
+	private void setAuswertungskriterien()
+	{
+		final IViewAktualisieren view = this;
+		_auswertungskriterien = new ArrayList<AbstractAuswertung>()
+		{
+			{
+				add(new Nachricht(view));
+				add(new Servernachricht(view));
+				add(new Benutzer(view));
+				add(new Raeume(view));
+			}			
+		};
+		
+		this._controller.setAuswertungskriterien(_auswertungskriterien);
+	}
+	
+	public MainFrame(Controller controller) 
+	{
+		this._controller = controller;
+		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (final Exception e) {
@@ -123,6 +152,8 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		setBounds(0, 0, 640, 480);
 		setJMenuBar(getMenuBar_1());
 		setVisible(true);
+		
+		this.setAuswertungskriterien();
 	}
 
 	
@@ -237,6 +268,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JButton getBtnSend() {
 		if (btnSend == null) {
 			btnSend = new JButton("Send");
+			btnSend.addActionListener(sendMessage);
 		}
 		return btnSend;
 	}
@@ -267,7 +299,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			mntmLogin = new JMenuItem("Login");
 			mntmLogin.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					new LoginDialog(MainFrame.this);
+					new LoginDialog(MainFrame.this, _controller);
 				}
 			});
 		}
@@ -278,7 +310,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			mntmRegister = new JMenuItem("Register");
 			mntmRegister.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new RegisterDialog(MainFrame.this);
+					new RegisterDialog(MainFrame.this, _controller);
 				}
 			});
 		}
@@ -336,10 +368,16 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		return txtUser;
 	}
 
+	public void sendMessage(Message message)
+	{
+		this._controller.sendMessageObject(message);
+	}
 
 	@Override
-	public void ChatMessageEmpfangen(String message) {
-		// TODO Auto-generated method stub
+	public void ChatMessageEmpfangen(String message) 
+	{
+		String text = (tfChatlog.getText()+"\n"+message);
+		tfChatlog.setText(text);
 		
 	}
 
@@ -391,4 +429,13 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	ActionListener sendMessage = new ActionListener() 
+	{		
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			_controller.sendMessageObject(new Message(0,"Richard","hi","","mainlobby"));
+		}
+	};
 }

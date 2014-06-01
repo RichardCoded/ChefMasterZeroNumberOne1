@@ -14,7 +14,8 @@ public class Nachricht extends AbstractAuswertung {
 	@Override
 	public void auswerten(Message message) 
 	{
-		//this._view.entsprechendeMethode(StaticServerAnswerResources.getChatOutputEvaluated(message));		
+		//this._view.entsprechendeMethode(StaticServerAnswerResources.getChatOutputEvaluated(message));
+		this._view.ChatMessageEmpfangen(message.getContent());
 	}
 
 	@Override

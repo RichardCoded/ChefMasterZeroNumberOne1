@@ -16,10 +16,12 @@ public class Login implements IMessageAuswerten
 	{
 		if(message.getContent().contains(StaticServerAnswerResources.Erfolgreich))
 		{
+			System.out.println("Login erfolgreich");
 			//this._view.entsprechendeMethode(true, StaticServerAnswerResources.getChatOutputEvaluated(message));
 		}
 		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
 		{
+			System.out.println("Login fehlgeschlagen");
 			//this._view.entsprechendeMethode(false, StaticServerAnswerResources.getChatOutputEvaluated(message));
 		}
 		

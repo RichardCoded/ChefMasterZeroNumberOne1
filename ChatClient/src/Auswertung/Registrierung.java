@@ -14,7 +14,7 @@ public class Registrierung implements IMessageAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		
+		System.out.println("Client: "+message.getContent());
 	}
 
 }

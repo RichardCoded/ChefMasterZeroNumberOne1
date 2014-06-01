@@ -24,7 +24,8 @@ public class Servernachricht extends AbstractAuswertung {
 	
 	public Servernachricht(IViewAktualisieren view) 
 	{
-		super(view);		
+		super(view);
+		setServerMessage();
 	}
 
 	@Override

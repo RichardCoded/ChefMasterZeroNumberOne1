@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
@@ -15,11 +16,17 @@ import javax.swing.JLabel;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-public class LoginDialog extends JDialog {
+import Controller.Controller;
+import Model.Message;
+
+public class LoginDialog extends JDialog 
+{
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtUsername;
@@ -27,8 +34,15 @@ public class LoginDialog extends JDialog {
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private MainFrame mainframe;
-	public LoginDialog(MainFrame mainframe) {
+	
+	private Controller _controller;
+	
+	public LoginDialog(MainFrame mainframe, Controller controller) 
+	{	
 		this.mainframe = mainframe;
+		
+		this._controller = controller;
+		
 		setResizable(false);
 		setTitle("Login");
 		setSize(365, 210);
@@ -62,7 +76,7 @@ public class LoginDialog extends JDialog {
 		}
 		{
 			txtServer = new JTextField();
-			txtServer.setText("Server");
+			txtServer.setText("localhost");
 			GridBagConstraints gbc_txtServer = new GridBagConstraints();
 			gbc_txtServer.insets = new Insets(0, 0, 5, 5);
 			gbc_txtServer.fill = GridBagConstraints.HORIZONTAL;
@@ -73,7 +87,7 @@ public class LoginDialog extends JDialog {
 		}
 		{
 			txtPort = new JTextField();
-			txtPort.setText("Port");
+			txtPort.setText("13000");
 			GridBagConstraints gbc_txtPort = new GridBagConstraints();
 			gbc_txtPort.insets = new Insets(0, 0, 5, 5);
 			gbc_txtPort.fill = GridBagConstraints.HORIZONTAL;
@@ -149,6 +163,7 @@ public class LoginDialog extends JDialog {
 				JButton okButton = new JButton("Login");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
+				okButton.addActionListener(login);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
@@ -159,5 +174,38 @@ public class LoginDialog extends JDialog {
 		}
 		setVisible(true);
 	}
+	
+	ActionListener login = new ActionListener() 
+	{		
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{			
+			if(!_controller.getServerConnectionStatus())
+			{
+				String serveraddress = "";
+				int port;
+				try 
+				{
+					serveraddress = txtServer.getText();
+					port = Integer.valueOf(txtPort.getText());
+					
+				}
+				catch (Exception e2) 
+				{
+					e2.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Port muss ganzzahlig sein.");
+					return;
+				}
+				if(!serveraddress.isEmpty())
+				_controller.ConnectToServer(serveraddress, port);
+			}
+			
+			String username = txtUsername.getText();
+			String passwort = txtPassword.getText();
+			
+//			_controller.sendMessageObject((new Message(5, username, "asdf", "", "")));
+			_controller.sendMessageObject((new Message(5, "Richard", passwort, "", "")));
+		}
+	};
 
 }

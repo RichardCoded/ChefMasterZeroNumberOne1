@@ -18,6 +18,8 @@ public class Controller implements Runnable
 	private ObjectInputStream _input;
     private ObjectOutputStream _output;
 	private Socket _socket;
+	private Thread _clientThread;
+	private boolean _isConnectedToServer;
     private ArrayList<AbstractAuswertung> _kriterien = new ArrayList<AbstractAuswertung>();
 	
 	public Controller()
@@ -28,7 +30,7 @@ public class Controller implements Runnable
 		this._kriterien = kriterien;
 	}
 	
-	public boolean ConnectToServer(String serverAdresse, int port)
+	public void ConnectToServer(String serverAdresse, int port)
 	{
 		try 
 		{
@@ -39,13 +41,36 @@ public class Controller implements Runnable
 	        
 			_input = new ObjectInputStream(_socket.getInputStream());
 	        
-	        return true;
-		} 
+			
+			starteThread();
+			
+	        this._isConnectedToServer = true;
+		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return false;
+			this._isConnectedToServer = false;
+			this.stoppeThread();
 		}
+	}
+
+	public boolean getServerConnectionStatus()
+	{
+		return this._isConnectedToServer;
+	}
+	
+	private void starteThread()
+	{
+		_clientThread = new Thread(this);
+		_clientThread.start();
+	}
+	
+	public void stoppeThread()
+	{
+		if(_clientThread != null)
+		{
+			_clientThread.stop();
+		}		
 	}
 
 	public void sendMessageObject(Message message)
@@ -62,24 +87,29 @@ public class Controller implements Runnable
     }
 	
 	@Override
-	public void run() 
+	public void run()
 	{		
-		while(true)
+		boolean read = true;
+		while(read)
 		{
 			try 
 			{
-				Message message = (Message) _input.readObject();
 				
+				Message message = (Message) _input.readObject();
+								
 				for(AbstractAuswertung kriterium : this._kriterien)
 				{
 					if(kriterium.getType() == message.getType())
 					{
 						kriterium.auswerten(message);
 					}
-				}				
-			} 
+				}
+			}
 			catch (Exception e) 
 			{
+				java.util.Date date= new java.util.Date();
+           	 	System.out.println(date.getTime());
+				read = false;
 				e.printStackTrace();
 			}
 		}
