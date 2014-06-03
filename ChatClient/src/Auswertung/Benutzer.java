@@ -36,11 +36,11 @@ public class Benutzer extends AbstractAuswertung {
 		}
 		
 		//Der View die Liste ergebnis übergeben, zum Beispiel: 
-		this._view.BenutzerListeErhalten(ergebnis);
+		this._view.benutzerListeErhalten(ergebnis);
 	}
 
 	@Override
-	public int getType() { return 1; }
+	public int getType() { return Message.USERS; }
 
 		
 }

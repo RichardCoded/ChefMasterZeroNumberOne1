@@ -35,10 +35,10 @@ public class Raeume extends AbstractAuswertung {
 		}
 		
 		// Der View die Liste ergebnis übergeben:
-		this._view.RaeumeListeErhalten(ergebnis);
+		this._view.raeumeListeErhalten(ergebnis);
 	}
 
 	@Override
-	public int getType() { return 2; }
+	public int getType() { return Message.ROOMS; }
 
 }

@@ -16,11 +16,11 @@ public class Leave implements IMessageAuswerten
 	{
 		if(!message.getContent().contains("Error"))
 		{
-			_view.LeaveErgebnis(true);
+			_view.leaveErgebnis(true);
 		}
 		else
 		{
-			_view.LeaveErgebnis(false);
+			_view.leaveErgebnis(false);
 		}
 	}
 }

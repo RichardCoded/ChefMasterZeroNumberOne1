@@ -104,6 +104,11 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		return this.myUserName;
 	}
 	
+	public void setUsername(String username)
+	{
+		this.myUserName = username;
+	}
+	
 	public MainFrame(Controller controller) 
 	{
 		this._controller = controller;
@@ -387,7 +392,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	}
 
 	@Override
-	public void ChatMessageEmpfangen(String message) 
+	public void chatMessageEmpfangen(String message) 
 	{
 		String text = tfChatlog.getText()+"\n"+message;
 		tfChatlog.setText(text);
@@ -396,7 +401,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 
 
 	@Override
-	public void BenutzerListeErhalten(ArrayList<String> users) 
+	public void benutzerListeErhalten(ArrayList<String> users) 
 	{
 		DefaultListModel<String> benutzer = new DefaultListModel<String>();
 		for(String string : users)
@@ -408,7 +413,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 
 
 	@Override
-	public void RaeumeListeErhalten(ArrayList<String> rooms) 
+	public void raeumeListeErhalten(ArrayList<String> rooms) 
 	{
 
 		DefaultListModel<String> raeume = new DefaultListModel<String>();
@@ -422,23 +427,19 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 
 
 	@Override
-	public void LoginErgebnis(boolean status, String result) 
+	public void loginErgebnis(boolean status, String result, String name) 
 	{
-		
+		if(status)
+		{
+			myUserName = name;
+			txtUser.setText(name);
+		}
 		
 	}
 
 
 	@Override
-	public void LogoutErgebnis(boolean status, String result) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void RegistrierungErgebnis(boolean status, String result) 
+	public void logoutErgebnis(boolean status, String result) 
 	{
 		// TODO Auto-generated method stub
 		
@@ -446,7 +447,15 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 
 
 	@Override
-	public void JoinErgebnis(boolean result) 
+	public void registrierungErgebnis(boolean status, String result) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void joinErgebnis(boolean result) 
 	{
 		if(result)
 		txtMainlobby.setText(_raumname);
@@ -454,7 +463,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 
 
 	@Override
-	public void LeaveErgebnis(boolean result) 
+	public void leaveErgebnis(boolean result) 
 	{
 		if(result)
 		{

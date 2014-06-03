@@ -16,11 +16,11 @@ public class Join implements IMessageAuswerten
 	{
 		if(message.getContent().contains("successful"))
 		{
-			_view.JoinErgebnis(true);
+			_view.joinErgebnis(true);
 		}
 		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
 		{
-			_view.JoinErgebnis(false);
+			_view.joinErgebnis(false);
 		}
 	}
 

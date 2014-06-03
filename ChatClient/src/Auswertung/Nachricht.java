@@ -15,10 +15,10 @@ public class Nachricht extends AbstractAuswertung {
 	public void auswerten(Message message) 
 	{
 		//this._view.entsprechendeMethode(StaticServerAnswerResources.getChatOutputEvaluated(message));		
-		this._view.ChatMessageEmpfangen(StaticServerAnswerResources.getChatOutputEvaluated(message));
+		this._view.chatMessageEmpfangen(StaticServerAnswerResources.getChatOutputEvaluated(message));
 	}
 
 	@Override
-	public int getType() { return 0; }
+	public int getType() { return Message.MESSAGE; }
 
 }
