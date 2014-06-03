@@ -14,7 +14,14 @@ public class Join implements IMessageAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		
+		if(message.getContent().contains("successful"))
+		{
+			_view.JoinErgebnis(true);
+		}
+		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
+		{
+			_view.JoinErgebnis(false);
+		}
 	}
 
 }

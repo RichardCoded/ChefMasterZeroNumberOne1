@@ -35,7 +35,7 @@ public class Raeume extends AbstractAuswertung {
 		}
 		
 		// Der View die Liste ergebnis übergeben:
-		// _view.aktualisiereBenutzerliste(ergebnis);
+		this._view.RaeumeListeErhalten(ergebnis);
 	}
 
 	@Override

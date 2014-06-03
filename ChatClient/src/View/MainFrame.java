@@ -15,6 +15,9 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.DefaultListModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -73,6 +76,10 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JTextField txtMainlobby;
 	private JTextField txtUser;
 
+	public String myUserName = "";
+	private String _zielUserName = "";
+	private String _raumname = "mainlobby";
+	
 	private Controller _controller;
 	private ArrayList<AbstractAuswertung> _auswertungskriterien;
 	
@@ -90,6 +97,11 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		};
 		
 		this._controller.setAuswertungskriterien(_auswertungskriterien);
+	}
+	
+	public String getUsername()
+	{
+		return this.myUserName;
 	}
 	
 	public MainFrame(Controller controller) 
@@ -207,6 +219,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JList getLiUsers() {
 		if (liUsers == null) {
 			liUsers = new JList();
+			liUsers.addListSelectionListener(selectedUserChanged);
 			liUsers.setModel(new AbstractListModel() {
 				String[] values = new String[] {"Azad", "Bushido", "Cool Savage", "Sammy Deluxe", "Ash aus Alabastia"};
 				public int getSize() {
@@ -352,7 +365,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			txtMainlobby = new JTextField();
 			txtMainlobby.setBorder(new TitledBorder(null, "Room", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			txtMainlobby.setEditable(false);
-			txtMainlobby.setText("Mainlobby");
+			txtMainlobby.setText("mainlobby");
 			txtMainlobby.setColumns(10);
 		}
 		return txtMainlobby;
@@ -376,66 +389,141 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	@Override
 	public void ChatMessageEmpfangen(String message) 
 	{
-		String text = (tfChatlog.getText()+"\n"+message);
+		String text = tfChatlog.getText()+"\n"+message;
 		tfChatlog.setText(text);
 		
 	}
 
 
 	@Override
-	public void BenutzerListeErhalten(ArrayList<String> users) {
+	public void BenutzerListeErhalten(ArrayList<String> users) 
+	{
+		DefaultListModel<String> benutzer = new DefaultListModel<String>();
+		for(String string : users)
+		{
+			benutzer.addElement(string);
+		}
+		this.liUsers.setModel(benutzer);
+	}
+
+
+	@Override
+	public void RaeumeListeErhalten(ArrayList<String> rooms) 
+	{
+
+		DefaultListModel<String> raeume = new DefaultListModel<String>();
+		for(String string : rooms)
+		{
+			raeume.addElement(string);					
+		}
+		this.liRooms.setModel(raeume);
+		
+	}
+
+
+	@Override
+	public void LoginErgebnis(boolean status, String result) 
+	{
+		
+		
+	}
+
+
+	@Override
+	public void LogoutErgebnis(boolean status, String result) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void RaeumeListeErhalten(ArrayList<String> rooms) {
+	public void RegistrierungErgebnis(boolean status, String result) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void LoginErgebnis(boolean status, String result) {
-		// TODO Auto-generated method stub
-		
+	public void JoinErgebnis(boolean result) 
+	{
+		if(result)
+		txtMainlobby.setText(_raumname);
 	}
 
 
 	@Override
-	public void LogoutErgebnis(boolean status, String result) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void RegistrierungErgebnis(boolean status, String result) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void JoinErgebnis(boolean result) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void LeaveErgebnis(boolean result) {
-		// TODO Auto-generated method stub
+	public void LeaveErgebnis(boolean result) 
+	{
+		if(result)
+		{
+			txtMainlobby.setText("mainlobby");
+		}
 		
 	}
 	
 	ActionListener sendMessage = new ActionListener() 
-	{		
+	{	
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			_controller.sendMessageObject(new Message(0,"Richard","hi","","mainlobby"));
+			
+			
+			int indexBefehl = tfSubmit.getText().indexOf(" ", 0);
+			String befehl = tfSubmit.getText().substring(0,indexBefehl+1); //+1, um leerzeichen nach Befehl auch zu entfernen.
+			String text = tfSubmit.getText();
+			
+			System.out.println(befehl);
+			System.out.println(text);
+			
+			if(befehl.contains("/join"))
+			{
+				text = tfSubmit.getText().replaceFirst(befehl, "");
+				_raumname = text;
+				_controller.sendMessageObject(new Message(3, myUserName, text,"", ""));
+				
+			}
+			else if(befehl.contains("/leave"))
+			{
+				text = tfSubmit.getText().replaceFirst(befehl, "");
+				_controller.sendMessageObject(new Message(4, myUserName, "","", ""));
+			}
+			else if(befehl.contains("/tell"))
+			{								
+				text = tfSubmit.getText().replaceFirst(befehl, "");
+				_controller.sendMessageObject(new Message(0, myUserName, text, _zielUserName, ""));
+				
+				text = "[Me -> "+_zielUserName+"] : "+text;
+				String chatlog = tfChatlog.getText();
+				tfChatlog.setText(chatlog + "\n" + text);
+				
+				
+			}
+			else if(!text.isEmpty())
+			{
+				_controller.sendMessageObject(new Message(0, myUserName, text, "", txtMainlobby.getText()));
+				System.out.println(txtMainlobby.getText());
+				
+				text = "[Me -> "+_raumname+"] : "+text;
+				String chatlog = tfChatlog.getText();
+				tfChatlog.setText(chatlog + "\n" + text);
+			}
 		}
 	};
+	
+	
+	ListSelectionListener selectedUserChanged = new ListSelectionListener() 
+	{		
+		@Override
+		public void valueChanged(ListSelectionEvent e) 
+		{
+			if(liUsers.getSelectedValue() != null)
+			_zielUserName = liUsers.getSelectedValue().toString();
+			
+		}
+	};
+	
+	
+	
 }

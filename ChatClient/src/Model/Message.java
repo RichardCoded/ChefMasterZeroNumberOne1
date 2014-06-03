@@ -4,6 +4,17 @@ import java.io.Serializable;
 public class Message implements Serializable{
     
     private static final long serialVersionUID = 1L;
+    
+	public static final int MESSAGE 	= 0; // Message in the chat
+	public static final int LOGIN 		= 1; // Login this client,send him the users- and rooms list and send him to "mainlobby"
+	public static final int LOGOUT 		= 2; // Logout this client, remove him from userlist and send the user the new room
+	public static final int REGISTER 	= 3; // Register this client in the database (only register, dont log him in yet)
+	public static final int JOIN 		= 4; // Join a user to an existing room or create one if it not exists 
+	public static final int LEAVE 		= 5; // Leave a user from an existing room and destroy the room if it is empty
+	public static final int USERS 		= 6; // Show a list of users from the current room
+	public static final int ROOMS 		= 7; // Show a list of rooms
+	public static final int SERVERSUCCESS	= 8; // Show a servermessage
+	public static final int SERVERERROR	= 9; // Show a errormessage    
 
     private int type;
     private String sender;

@@ -206,7 +206,9 @@ public class RegisterDialog extends JDialog {
 			String passwort = txtPassword.getText();
 			
 //			_controller.sendMessageObject((new Message(7, username, "asdf", "", "")));
-			_controller.sendMessageObject((new Message(7, "Richard", passwort, "", "")));
+			_controller.sendMessageObject((new Message(7, username, passwort, "", "")));
+			
+			mainframe.myUserName = username;
 		}
 	};
 	

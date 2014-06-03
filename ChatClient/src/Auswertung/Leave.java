@@ -14,6 +14,13 @@ public class Leave implements IMessageAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-				
+		if(!message.getContent().contains("Error"))
+		{
+			_view.LeaveErgebnis(true);
+		}
+		else
+		{
+			_view.LeaveErgebnis(false);
+		}
 	}
 }

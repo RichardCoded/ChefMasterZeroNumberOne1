@@ -203,8 +203,12 @@ public class LoginDialog extends JDialog
 			String username = txtUsername.getText();
 			String passwort = txtPassword.getText();
 			
+			mainframe.myUserName = username;
+			
 //			_controller.sendMessageObject((new Message(5, username, "asdf", "", "")));
-			_controller.sendMessageObject((new Message(5, "Richard", passwort, "", "")));
+			_controller.sendMessageObject((new Message(5, username, passwort, "", "")));
+			
+			
 		}
 	};
 
