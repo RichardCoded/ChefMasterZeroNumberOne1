@@ -261,8 +261,9 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JMenu getMnConnection() {
 		if (mnConnection == null) {
 			mnConnection = new JMenu("Connection");
-			mnConnection.add(getMntmLogin());
+			mnConnection.add(getMntmConnectToServer());
 			mnConnection.add(getMntmRegister());
+			mnConnection.add(getMntmLogin());
 			mnConnection.add(getMntmLogout());
 		}
 		return mnConnection;
@@ -600,7 +601,19 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			
 		}
 	};
+	private JMenuItem mntmConnectToServer;
 	
 	
 	
+	private JMenuItem getMntmConnectToServer() {
+		if (mntmConnectToServer == null) {
+			mntmConnectToServer = new JMenuItem("Connect to Server");
+			mntmConnectToServer.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					new ConnectToServerDialog(MainFrame.this, _controller);
+				}
+			});
+		}
+		return mntmConnectToServer;
+	}
 }
