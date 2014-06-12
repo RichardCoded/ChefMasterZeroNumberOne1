@@ -207,7 +207,7 @@ public class LoginDialog extends JDialog
 			
 //			_controller.sendMessageObject((new Message(5, username, "asdf", "", "")));
 			_controller.sendMessageObject((new Message(5, username, passwort, "", "")));
-			
+			dispose();
 			
 		}
 	};

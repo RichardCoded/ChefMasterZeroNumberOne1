@@ -22,7 +22,7 @@ public class StaticServerAnswerResources
 	
 	private static String getSender(Message message)
 	{
-		if(!message.getSender().isEmpty())
+		if(message.getSender() != null)
 		{
 			return message.getSender();
 		}

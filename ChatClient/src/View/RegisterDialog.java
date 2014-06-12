@@ -209,6 +209,7 @@ public class RegisterDialog extends JDialog {
 			_controller.sendMessageObject((new Message(7, username, passwort, "", "")));
 			
 			mainframe.myUserName = username;
+			dispose();
 		}
 	};
 	

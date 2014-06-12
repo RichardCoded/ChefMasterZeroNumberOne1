@@ -37,6 +37,7 @@ public class Benutzer extends AbstractAuswertung {
 		
 		//Der View die Liste ergebnis übergeben, zum Beispiel: 
 		this._view.benutzerListeErhalten(ergebnis);
+
 	}
 
 	@Override

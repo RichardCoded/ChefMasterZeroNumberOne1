@@ -3,7 +3,7 @@ package Auswertung;
 import Model.Message;
 import View.IViewAktualisieren;
 
-public class Login implements IMessageAuswerten
+public class Login implements IMessageAuswerten, IServerErrorAuswerten
 {
 	private IViewAktualisieren _view;
 	public Login(IViewAktualisieren view)
@@ -13,18 +13,21 @@ public class Login implements IMessageAuswerten
 		
 	@Override
 	public void auswerten(Message message) 
-	{
-		if(message.getContent().contains(StaticServerAnswerResources.Erfolgreich))
-		{
-			System.out.println("Login erfolgreich");
-			this._view.loginErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message), message.getReceiver());
-		}
-		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
-		{
-			System.out.println("Login fehlgeschlagen");
-			this._view.loginErgebnis(false, StaticServerAnswerResources.getChatOutputEvaluated(message), message.getReceiver());
-		}
-		
+	{	
+		System.out.println("Client: Login erfolgreich");
+		this._view.loginErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message), message.getReceiver());
+				
 	}
-	
+
+	@Override
+	public void errorAuswerten(Message message) 
+	{
+		_view.loginErgebnis(false,StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""), message.getReceiver());		
+	}
+
+	@Override
+	public String getErrorType() 
+	{
+		return "LOGIN:";
+	}
 }

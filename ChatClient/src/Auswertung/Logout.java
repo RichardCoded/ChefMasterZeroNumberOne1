@@ -3,7 +3,7 @@ package Auswertung;
 import Model.Message;
 import View.IViewAktualisieren;
 
-public class Logout implements IMessageAuswerten
+public class Logout implements IMessageAuswerten, IServerErrorAuswerten
 {
 
 	private IViewAktualisieren _view;	
@@ -15,9 +15,9 @@ public class Logout implements IMessageAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		if(message.getContent().contains(StaticServerAnswerResources.Erfolgreich))
+		if(message.getContent().contains("erfolgreich"))
 		{
-			//_view.EntsprechendeMethode(true, message.getContent());
+			this._view.logoutErgebnis(true, "hat sich erfolgreich ausgeloggt");
 		}
 		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
 		{
@@ -25,4 +25,15 @@ public class Logout implements IMessageAuswerten
 		}
 	}
 
+	@Override
+	public void errorAuswerten(Message message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getErrorType() 
+	{
+		return "LOGOUT:";
+	}
 }

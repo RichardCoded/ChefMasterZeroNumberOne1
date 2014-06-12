@@ -3,7 +3,7 @@ package Auswertung;
 import Model.Message;
 import View.IViewAktualisieren;
 
-public class Join implements IMessageAuswerten
+public class Join implements IMessageAuswerten, IServerErrorAuswerten
 {
 	private IViewAktualisieren _view;
 	public Join(IViewAktualisieren view)
@@ -24,4 +24,15 @@ public class Join implements IMessageAuswerten
 		}
 	}
 
+	@Override
+	public void errorAuswerten(Message message) 
+	{
+		
+	}
+
+	@Override
+	public String getErrorType() 
+	{
+		return "JOIN:";
+	}
 }

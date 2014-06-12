@@ -40,11 +40,12 @@ import javax.swing.AbstractListModel;
 
 import Auswertung.AbstractAuswertung;
 import Auswertung.Benutzer;
+import Auswertung.Chatmessage;
 import Auswertung.IMessageAuswerten;
-import Auswertung.Nachricht;
 import Auswertung.Raeume;
-import Auswertung.Registrierung;
-import Auswertung.Servernachricht;
+import Auswertung.Register;
+import Auswertung.Servererror;
+import Auswertung.Serversuccess;
 import Controller.Controller;
 import Model.Message;
 
@@ -71,6 +72,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JMenuItem mntmLogin;
 	private JMenuItem mntmRegister;
 	private JMenuItem mntmClose;
+	private JMenuItem mntmLogout;
 	private JPanel panel;
 	private JTextField tfServerPort;
 	private JTextField txtMainlobby;
@@ -79,6 +81,8 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	public String myUserName = "";
 	private String _zielUserName = "";
 	private String _raumname = "mainlobby";
+	
+	private StringBuffer _chatlog = new StringBuffer();
 	
 	private Controller _controller;
 	private ArrayList<AbstractAuswertung> _auswertungskriterien;
@@ -89,10 +93,11 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		_auswertungskriterien = new ArrayList<AbstractAuswertung>()
 		{
 			{
-				add(new Nachricht(view));
-				add(new Servernachricht(view));
+				add(new Chatmessage(view));				
 				add(new Benutzer(view));
 				add(new Raeume(view));
+				add(new Serversuccess(view));
+				add(new Servererror(view));
 			}			
 		};
 		
@@ -258,6 +263,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			mnConnection = new JMenu("Connection");
 			mnConnection.add(getMntmLogin());
 			mnConnection.add(getMntmRegister());
+			mnConnection.add(getMntmLogout());
 		}
 		return mnConnection;
 	}
@@ -334,6 +340,22 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return mntmRegister;
 	}
+	private JMenuItem getMntmLogout()
+	{
+		if(mntmLogout == null)
+		{
+			mntmLogout = new JMenuItem("Logout");
+			mntmLogout.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					//new LogoutDialog????					
+				}
+			});
+			
+		}
+		return mntmLogout;
+	}
 	private JMenuItem getMntmClose() {
 		if (mntmClose == null) {
 			mntmClose = new JMenuItem("Close");
@@ -403,26 +425,24 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	@Override
 	public void benutzerListeErhalten(ArrayList<String> users) 
 	{
-		DefaultListModel<String> benutzer = new DefaultListModel<String>();
+		DefaultListModel benutzer = new DefaultListModel();
 		for(String string : users)
 		{
 			benutzer.addElement(string);
 		}
-		this.liUsers.setModel(benutzer);
+		this.liUsers.setModel(benutzer);		
 	}
 
 
 	@Override
 	public void raeumeListeErhalten(ArrayList<String> rooms) 
 	{
-
-		DefaultListModel<String> raeume = new DefaultListModel<String>();
+		DefaultListModel raeume = new DefaultListModel();
 		for(String string : rooms)
 		{
-			raeume.addElement(string);					
+			raeume.addElement(string);
 		}
-		this.liRooms.setModel(raeume);
-		
+		this.liRooms.setModel(raeume);		
 	}
 
 
@@ -431,9 +451,19 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	{
 		if(status)
 		{
+			
 			myUserName = name;
 			txtUser.setText(name);
+			_chatlog.append(result);
+			tfChatlog.setText(_chatlog.toString());
 		}
+		else
+		{
+			String chat = tfChatlog.getText();
+			chat = chat + "\n" + result;
+			tfChatlog.setText(chat);
+		}
+		
 		
 	}
 
@@ -441,8 +471,13 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	@Override
 	public void logoutErgebnis(boolean status, String result) 
 	{
-		// TODO Auto-generated method stub
-		
+		if(!status)
+		{
+			txtUser.setText("");
+			txtMainlobby.setText("");
+			String chat = tfChatlog.getText();
+			chat = chat + "\n" + result;
+		}
 	}
 
 
@@ -474,49 +509,80 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	
 	ActionListener sendMessage = new ActionListener() 
 	{	
+		int x = 0;
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
-		{
-			
-			
-			int indexBefehl = tfSubmit.getText().indexOf(" ", 0);
-			String befehl = tfSubmit.getText().substring(0,indexBefehl+1); //+1, um leerzeichen nach Befehl auch zu entfernen.
-			String text = tfSubmit.getText();
-			
-			System.out.println(befehl);
-			System.out.println(text);
-			
-			if(befehl.contains("/join"))
+		{		
+			x++;
+			System.out.println(x);
+			String text;
+			if(tfSubmit.getText().length() > 0)
 			{
-				text = tfSubmit.getText().replaceFirst(befehl, "");
-				_raumname = text;
-				_controller.sendMessageObject(new Message(3, myUserName, text,"", ""));
 				
+				String firstLetter = tfSubmit.getText().substring(0,1);
+				if(firstLetter.equals("/"))
+				{
+					if(tfSubmit.getText().length() >= 6)
+					{
+						String leave = tfSubmit.getText().substring(1,6);
+						if(leave.equals("leave"))
+						{							
+							_controller.sendMessageObject(new Message(4, myUserName, "","", ""));
+							return;
+						}
+						
+						String join = tfSubmit.getText().substring(1,5);						
+						if(join.equals("join"))
+						{
+							int length = tfSubmit.getText().length();
+							
+							String leerzeichen = tfSubmit.getText().substring(5,6);
+							
+							if(leerzeichen.equals(" "))
+							{
+								text = tfSubmit.getText().substring(6, length);								
+							}
+							else
+							{
+								text = tfSubmit.getText().substring(5, length);
+							}
+							
+							_controller.sendMessageObject(new Message(3, myUserName, text,"", ""));
+							return;
+						}
+					}
+				}
 			}
-			else if(befehl.contains("/leave"))
-			{
-				text = tfSubmit.getText().replaceFirst(befehl, "");
-				_controller.sendMessageObject(new Message(4, myUserName, "","", ""));
-			}
-			else if(befehl.contains("/tell"))
-			{								
-				text = tfSubmit.getText().replaceFirst(befehl, "");
+			
+			text = tfSubmit.getText();
+			//send Message if user is being selected
+			if(!_zielUserName.isEmpty())
+			{				
+				text = "[Me -> "+_zielUserName+"] : "+text;
+				
 				_controller.sendMessageObject(new Message(0, myUserName, text, _zielUserName, ""));
 				
-				text = "[Me -> "+_zielUserName+"] : "+text;
 				String chatlog = tfChatlog.getText();
 				tfChatlog.setText(chatlog + "\n" + text);
-				
-				
+				return;
 			}
-			else if(!text.isEmpty())
+			else
 			{
-				_controller.sendMessageObject(new Message(0, myUserName, text, "", txtMainlobby.getText()));
+				if(txtMainlobby.getText().equals("mainlobby"))
+				{
+					_controller.sendMessageObject(new Message(0, myUserName, text, "", ""));
+				}
+				else
+				{
+					_controller.sendMessageObject(new Message(0, myUserName, text, "", txtMainlobby.getText()));
+				}
+				
 				System.out.println(txtMainlobby.getText());
 				
 				text = "[Me -> "+_raumname+"] : "+text;
 				String chatlog = tfChatlog.getText();
 				tfChatlog.setText(chatlog + "\n" + text);
+				return;
 			}
 		}
 	};
@@ -528,7 +594,9 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		public void valueChanged(ListSelectionEvent e) 
 		{
 			if(liUsers.getSelectedValue() != null)
-			_zielUserName = liUsers.getSelectedValue().toString();
+				_zielUserName = liUsers.getSelectedValue().toString();
+			else
+				_zielUserName = "";
 			
 		}
 	};

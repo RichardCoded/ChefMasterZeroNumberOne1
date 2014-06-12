@@ -3,7 +3,7 @@ package Auswertung;
 import Model.Message;
 import View.IViewAktualisieren;
 
-public class Leave implements IMessageAuswerten
+public class Leave implements IMessageAuswerten, IServerErrorAuswerten
 {
 	private IViewAktualisieren _view;
 	public Leave(IViewAktualisieren view)
@@ -22,5 +22,17 @@ public class Leave implements IMessageAuswerten
 		{
 			_view.leaveErgebnis(false);
 		}
+	}
+
+	@Override
+	public void errorAuswerten(Message message) 
+	{
+		
+	}
+
+	@Override
+	public String getErrorType() 
+	{
+		return "LEAVE:";
 	}
 }
