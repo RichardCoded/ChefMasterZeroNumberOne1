@@ -14,13 +14,13 @@ public class Register implements IMessageAuswerten, IServerErrorAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		System.out.println("Client: "+message.getContent());
+		_view.registrierungErgebnis(StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override
-	public void errorAuswerten(Message message) {
-		// TODO Auto-generated method stub
-		
+	public void errorAuswerten(Message message) 
+	{
+		_view.registrierungErgebnis(StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));		
 	}
 
 	@Override

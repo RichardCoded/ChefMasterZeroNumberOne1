@@ -13,7 +13,7 @@ public class Servernachricht extends AbstractAuswertung {
 		this._servermessages = new ArrayList<IMessageAuswerten>()
 		{
 			{
-				add(new Registrierung(_view));
+				add(new Register(_view));
 				add(new Login(_view));
 				add(new Logout(_view));
 				add(new Join(_view));

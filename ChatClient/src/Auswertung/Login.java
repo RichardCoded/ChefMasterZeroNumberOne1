@@ -14,9 +14,7 @@ public class Login implements IMessageAuswerten, IServerErrorAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{	
-		System.out.println("Client: Login erfolgreich");
-		this._view.loginErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message), message.getReceiver());
-				
+		this._view.loginErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""), message.getReceiver());
 	}
 
 	@Override

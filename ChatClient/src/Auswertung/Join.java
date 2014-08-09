@@ -14,20 +14,17 @@ public class Join implements IMessageAuswerten, IServerErrorAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		if(message.getContent().contains("successful"))
-		{
-			_view.joinErgebnis(true);
-		}
-		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
-		{
-			_view.joinErgebnis(false);
-		}
+		
+		int x = message.getContent().indexOf(": ", 0);
+		String raumname = message.getContent().substring(x+2, message.getContent().length());
+		System.out.println(raumname);
+		_view.joinErgebnis(true, raumname, StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override
 	public void errorAuswerten(Message message) 
 	{
-		
+		_view.joinErgebnis(false,"", StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override

@@ -332,6 +332,7 @@ public class CommandlistDialog extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
+		this.setModal(true);
 		setVisible(true);
 	}
 

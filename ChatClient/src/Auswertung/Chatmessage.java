@@ -15,8 +15,7 @@ public class Chatmessage extends AbstractAuswertung implements IServerErrorAuswe
 	@Override
 	public void auswerten(Message message) 
 	{
-		//this._view.entsprechendeMethode(StaticServerAnswerResources.getChatOutputEvaluated(message));		
-		this._view.chatMessageEmpfangen(StaticServerAnswerResources.getChatOutputEvaluated(message));
+		this._view.chatMessageEmpfangen(StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override
@@ -25,8 +24,8 @@ public class Chatmessage extends AbstractAuswertung implements IServerErrorAuswe
 	@Override
 	public void errorAuswerten(Message message)
 	{
-		System.out.println("Message: Error auswerten blablub");
-		
+		//Error auswerten, wenn es einen hier geben kann.
+		System.out.println("Klasse Chatmessage: errorAuswerten()");
 	}
 
 	@Override

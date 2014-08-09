@@ -120,6 +120,7 @@ public class LoginDialog extends JDialog
 				buttonPane.add(cancelButton);
 			}
 		}
+		this.setModal(true);
 		setVisible(true);
 	}
 	

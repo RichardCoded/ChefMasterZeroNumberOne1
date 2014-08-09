@@ -34,16 +34,16 @@ public class StaticServerAnswerResources
 	
 	private static String getReceiver(Message message)
 	{
-		if(!message.getReceiver().isEmpty())
+		if(message.getReceiver() != null)
 		{
 			return "Me";
 		}
-		else
+		else if(message.getRoom() != null)
 		{
 			return message.getRoom();
-			//andere Option:
-			//receiver = "All";
 		}
+		
+		return "server sucks";
 		
 	}		
 }

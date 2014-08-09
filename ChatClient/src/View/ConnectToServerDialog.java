@@ -78,7 +78,7 @@ public class ConnectToServerDialog extends JDialog {
 		}
 		{
 			txtServerURL = new JTextField();
-			txtServerURL.setText("ServerURL");
+			txtServerURL.setText("localhost");
 			GridBagConstraints gbc_txtServerURL = new GridBagConstraints();
 			gbc_txtServerURL.insets = new Insets(0, 0, 5, 5);
 			gbc_txtServerURL.fill = GridBagConstraints.HORIZONTAL;
@@ -89,7 +89,7 @@ public class ConnectToServerDialog extends JDialog {
 		}
 		{
 			txtServerport = new JTextField();
-			txtServerport.setText("1337");
+			txtServerport.setText("13000");
 			GridBagConstraints gbc_txtServerport = new GridBagConstraints();
 			gbc_txtServerport.insets = new Insets(0, 0, 5, 5);
 			gbc_txtServerport.fill = GridBagConstraints.HORIZONTAL;
@@ -114,7 +114,7 @@ public class ConnectToServerDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Register");
+				JButton okButton = new JButton("Connect");
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -126,13 +126,38 @@ public class ConnectToServerDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		setModal(true);
 		setVisible(true);
 	}
 
 	ActionListener register = new ActionListener() {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-
+		public void actionPerformed(ActionEvent e) 
+		{
+			if(!_controller.getServerConnectionStatus())
+			{
+				String serveraddress = "";
+				int port;
+				try 
+				{
+					serveraddress = txtServerURL.getText();
+					port = Integer.valueOf(txtServerport.getText());
+					
+				}
+				catch (Exception e2) 
+				{
+					e2.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Port muss ganzzahlig sein.");
+					return;
+				}
+				if(!serveraddress.isEmpty())
+				{
+					_controller.ConnectToServer(serveraddress, port);					
+					if(_controller.getServerConnectionStatus())
+						mainframe.setModus("ConnectedToServer");
+				}
+				
+			}
 			dispose();
 		}
 	};

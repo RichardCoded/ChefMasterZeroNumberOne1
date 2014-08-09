@@ -59,6 +59,11 @@ public class Controller implements Runnable
 		return this._isConnectedToServer;
 	}
 	
+	public String getServerPort()
+	{
+		return this._socket.getInetAddress().getHostAddress() + " : " + this._socket.getPort();
+	}
+	
 	private void starteThread()
 	{
 		_clientThread = new Thread(this);

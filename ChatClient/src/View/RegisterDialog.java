@@ -129,6 +129,7 @@ this.mainframe = mainframe;
 				buttonPane.add(cancelButton);
 			}
 		}
+		this.setModal(true);
 		setVisible(true);
 	}
 	

@@ -15,20 +15,13 @@ public class Logout implements IMessageAuswerten, IServerErrorAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		if(message.getContent().contains("erfolgreich"))
-		{
-			this._view.logoutErgebnis(true, "hat sich erfolgreich ausgeloggt");
-		}
-		else if(message.getContent().contains(StaticServerAnswerResources.Fehlgeschlagen))
-		{
-			//_view.EntsprechendeMethode(false, message.getContent());
-		}
+		this._view.logoutErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override
-	public void errorAuswerten(Message message) {
-		// TODO Auto-generated method stub
-		
+	public void errorAuswerten(Message message) 
+	{
+		this._view.logoutErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override

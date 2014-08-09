@@ -27,7 +27,8 @@ public class AboutDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private MainFrame mainframe;
-	public AboutDialog(MainFrame mainframe) {
+	public AboutDialog(MainFrame mainframe) 
+	{
 		this.mainframe = mainframe;
 		setUndecorated(true);
 		setResizable(false);
@@ -70,7 +71,7 @@ public class AboutDialog extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+		this.setModal(true);
 		setVisible(true);
 	}
 

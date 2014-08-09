@@ -28,6 +28,7 @@ public class Servererror extends AbstractAuswertung
 	@Override
 	public void auswerten(Message message) 
 	{
+		System.out.println("error auswerten nächster Schritt");
 		for(IServerErrorAuswerten auswertungsklasse : this._servermessages)
 		{
 			System.out.println(auswertungsklasse.getClass().getSimpleName().toUpperCase());			

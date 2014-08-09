@@ -34,7 +34,6 @@ public class Serversuccess extends AbstractAuswertung {
 		
 		for(IMessageAuswerten auswertungsklasse : this._servermessages)
 		{
-			System.out.println(auswertungsklasse.getClass().getSimpleName().toUpperCase());
 			if(message.getContent().contains(auswertungsklasse.getClass().getSimpleName().toUpperCase()))
 			{
 				auswertungsklasse.auswerten(message);

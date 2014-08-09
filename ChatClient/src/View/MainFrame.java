@@ -51,6 +51,11 @@ import Model.Message;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements IViewAktualisieren {
@@ -69,6 +74,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JButton btnSend;
 	private JMenuItem mntmCommandlist;
 	private JMenuItem mntmAbout;
+	private JMenuItem mntmConnectToServer;	
 	private JMenuItem mntmLogin;
 	private JMenuItem mntmRegister;
 	private JMenuItem mntmClose;
@@ -124,6 +130,10 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			System.out.println("Look & Feel konnte nicht geladen werden.");
 		}
 
+		
+		
+		
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 436, 147, 0 };
 		gridBagLayout.rowHeights = new int[] { 23, 108, 0, 0, 0, 0 };
@@ -175,25 +185,37 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		setJMenuBar(getMenuBar_1());
 		setVisible(true);
 		
+		
+		
+		this.setModus("AppStart");
 		this.setAuswertungskriterien();
+		this.addWindowListener(windowListener);
 	}
 
-	
-	private JScrollPane getSpChatlog() {
-		if (spChatlog == null) {
+	private JScrollPane getSpChatlog() 
+	{
+		if (spChatlog == null) 
+		{
 			spChatlog = new JScrollPane();
 			spChatlog.setViewportView(getTfChatlog());
 		}
 		return spChatlog;
 	}
-	private JTextPane getTfChatlog() {
-		if (tfChatlog == null) {
+	
+	private JTextPane getTfChatlog() 
+	{
+		if (tfChatlog == null) 
+		{
 			tfChatlog = new JTextPane();
+			tfChatlog.setEditable(false);
 		}
 		return tfChatlog;
 	}
-	private JScrollPane getSpRooms() {
-		if (spRooms == null) {
+	
+	private JScrollPane getSpRooms() 
+	{
+		if (spRooms == null) 
+		{
 			spRooms = new JScrollPane();
 			spRooms.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			spRooms.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -202,23 +224,20 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return spRooms;
 	}
-	private JList getLiRooms() {
-		if (liRooms == null) {
+	
+	private JList getLiRooms() 
+	{
+		if (liRooms == null) 
+		{
 			liRooms = new JList();
-			liRooms.setModel(new AbstractListModel() {
-				String[] values = new String[] {"Mainlobby", "I am so drunk", "Relentless zum Fr\u00FChst\u00FCck"};
-				public int getSize() {
-					return values.length;
-				}
-				public Object getElementAt(int index) {
-					return values[index];
-				}
-			});
 		}
 		return liRooms;
 	}
-	private JScrollPane getSpUsers() {
-		if (spUsers == null) {
+	
+	private JScrollPane getSpUsers() 
+	{
+		if (spUsers == null) 
+		{
 			spUsers = new JScrollPane();
 			spUsers.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			spUsers.setBorder(new TitledBorder(null, "Users", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -226,24 +245,20 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return spUsers;
 	}
-	private JList getLiUsers() {
-		if (liUsers == null) {
+	
+	private JList getLiUsers() 
+	{
+		if (liUsers == null) 
+		{
 			liUsers = new JList();
 			liUsers.addListSelectionListener(selectedUserChanged);
-			liUsers.setModel(new AbstractListModel() {
-				String[] values = new String[] {"Azad", "Bushido", "Cool Savage", "Sammy Deluxe", "Ash aus Alabastia"};
-				public int getSize() {
-					return values.length;
-				}
-				public Object getElementAt(int index) {
-					return values[index];
-				}
-			});
 		}
 		return liUsers;
 	}
-	private JMenuBar getMenuBar_1() {
-		if (menuBar == null) {
+	private JMenuBar getMenuBar_1() 
+	{
+		if (menuBar == null) 
+		{
 			menuBar = new JMenuBar();
 			menuBar.add(getMnFile());
 			menuBar.add(getMnConnection());
@@ -251,15 +266,19 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return menuBar;
 	}
-	private JMenu getMnFile() {
-		if (mnFile == null) {
+	private JMenu getMnFile() 
+	{
+		if (mnFile == null) 
+		{
 			mnFile = new JMenu("File");
 			mnFile.add(getMntmClose());
 		}
 		return mnFile;
 	}
-	private JMenu getMnConnection() {
-		if (mnConnection == null) {
+	private JMenu getMnConnection() 
+	{
+		if (mnConnection == null) 
+		{
 			mnConnection = new JMenu("Connection");
 			mnConnection.add(getMntmConnectToServer());
 			mnConnection.add(getMntmRegister());
@@ -268,79 +287,133 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return mnConnection;
 	}
-	private JMenu getMnHelp() {
-		if (mnHelp == null) {
+	private JMenu getMnHelp() 
+	{
+		if (mnHelp == null) 
+		{
 			mnHelp = new JMenu("Help");
 			mnHelp.add(getMntmCommandlist());
 			mnHelp.add(getMntmAbout());
 		}
 		return mnHelp;
 	}
-	private JScrollPane getSpSubmit() {
-		if (spSubmit == null) {
+	private JScrollPane getSpSubmit() 
+	{
+		if (spSubmit == null) 
+		{
 			spSubmit = new JScrollPane();
-			spSubmit.setViewportView(getTfSubmit());
+			spSubmit.setViewportView(getTfSubmit());			
 		}
 		return spSubmit;
 	}
-	private JTextPane getTfSubmit() {
-		if (tfSubmit == null) {
-			tfSubmit = new JTextPane();
-			tfSubmit.setText("tfSubmit");
+	private JTextPane getTfSubmit() 
+	{
+		if (tfSubmit == null) 
+		{
+			tfSubmit = new JTextPane();			
+			tfSubmit.setText("");
+			tfSubmit.addKeyListener(new KeyAdapter() 
+			{
+				@Override
+		        public void keyPressed(KeyEvent e) 
+				{
+					if (e.getKeyCode() == 10) 
+		            {
+						sendMessage(); // Fügt Zeilenumbruch hinzu, was buggy ist.
+		            }
+		        }
+			});
+			
 		}
 		return tfSubmit;
 	}
-	private JButton getBtnSend() {
-		if (btnSend == null) {
+	private JButton getBtnSend() 
+	{
+		if (btnSend == null) 
+		{
 			btnSend = new JButton("Send");
-			btnSend.addActionListener(sendMessage);
+			btnSend.addActionListener(sendMessageListener);
 		}
 		return btnSend;
 	}
-	private JMenuItem getMntmCommandlist() {
-		if (mntmCommandlist == null) {
+	private JMenuItem getMntmCommandlist() 
+	{
+		if (mntmCommandlist == null) 
+		{
 			mntmCommandlist = new JMenuItem("Commandlist");
-			mntmCommandlist.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			mntmCommandlist.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
 					new CommandlistDialog(MainFrame.this);
 				}
 			});
 		}
 		return mntmCommandlist;
 	}
-	private JMenuItem getMntmAbout() {
-		if (mntmAbout == null) {
+	private JMenuItem getMntmAbout() 
+	{
+		if (mntmAbout == null) 
+		{
 			mntmAbout = new JMenuItem("About");
-			mntmAbout.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			mntmAbout.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
 					new AboutDialog(MainFrame.this);
 				}
 			});
 		}
 		return mntmAbout;
 	}
-	private JMenuItem getMntmLogin() {
-		if (mntmLogin == null) {
+	private JMenuItem getMntmConnectToServer() 
+	{
+		if (mntmConnectToServer == null) 
+		{
+			mntmConnectToServer = new JMenuItem("Connect to Server");
+			mntmConnectToServer.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent arg0) 
+				{
+					new ConnectToServerDialog(MainFrame.this, _controller);
+					if(_controller.getServerConnectionStatus())
+						tfServerPort.setText(_controller.getServerPort());
+				}
+			});
+		}
+		return mntmConnectToServer;
+	}	
+	private JMenuItem getMntmLogin() 
+	{
+		if (mntmLogin == null) 
+		{
 			mntmLogin = new JMenuItem("Login");
-			mntmLogin.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+			mntmLogin.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent arg0) 
+				{
 					new LoginDialog(MainFrame.this, _controller);
 				}
 			});
 		}
 		return mntmLogin;
 	}
-	private JMenuItem getMntmRegister() {
-		if (mntmRegister == null) {
+	private JMenuItem getMntmRegister() 
+	{
+		if (mntmRegister == null) 
+		{
 			mntmRegister = new JMenuItem("Register");
-			mntmRegister.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			mntmRegister.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
 					new RegisterDialog(MainFrame.this, _controller);
 				}
 			});
 		}
 		return mntmRegister;
 	}
+	
 	private JMenuItem getMntmLogout()
 	{
 		if(mntmLogout == null)
@@ -350,26 +423,34 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 			{
 				public void actionPerformed(ActionEvent arg0) 
 				{
-					//new LogoutDialog????					
+					_controller.sendMessageObject(new Message(6,myUserName,"", "", ""));					
 				}
 			});
 			
 		}
 		return mntmLogout;
 	}
-	private JMenuItem getMntmClose() {
-		if (mntmClose == null) {
+	
+	private JMenuItem getMntmClose() 
+	{
+		if (mntmClose == null) 
+		{
 			mntmClose = new JMenuItem("Close");
-			mntmClose.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			mntmClose.addActionListener(new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent e) 
+				{
+					_controller.stoppeThread();
 					MainFrame.this.dispose();
 				}
 			});
 		}
 		return mntmClose;
 	}
-	private JPanel getPanel() {
-		if (panel == null) {
+	private JPanel getPanel() 
+	{
+		if (panel == null) 
+		{
 			panel = new JPanel();
 			panel.setLayout(new GridLayout(1, 0, 0, 0));
 			panel.add(getTfServerPort());
@@ -378,48 +459,53 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return panel;
 	}
-	private JTextField getTfServerPort() {
-		if (tfServerPort == null) {
+	private JTextField getTfServerPort() 
+	{
+		if (tfServerPort == null) 
+		{
 			tfServerPort = new JTextField();
-			tfServerPort.setText("192.168.777 : 1337");
+			tfServerPort.setText("");
 			tfServerPort.setBorder(new TitledBorder(null, "Server : Port", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			tfServerPort.setEditable(false);
 			tfServerPort.setColumns(10);
 		}
 		return tfServerPort;
 	}
-	private JTextField getTxtMainlobby() {
-		if (txtMainlobby == null) {
+	private JTextField getTxtMainlobby() 
+	{
+		if (txtMainlobby == null) 
+		{
 			txtMainlobby = new JTextField();
 			txtMainlobby.setBorder(new TitledBorder(null, "Room", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			txtMainlobby.setEditable(false);
-			txtMainlobby.setText("mainlobby");
+			txtMainlobby.setText("");
 			txtMainlobby.setColumns(10);
 		}
 		return txtMainlobby;
 	}
-	private JTextField getTxtUser() {
-		if (txtUser == null) {
+	private JTextField getTxtUser() 
+	{
+		if (txtUser == null) 
+		{
 			txtUser = new JTextField();
 			txtUser.setEditable(false);
 			txtUser.setBorder(new TitledBorder(null, "User", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			txtUser.setText("Bushido");
+			txtUser.setText("");
 			txtUser.setColumns(10);
 		}
 		return txtUser;
 	}
 
-	public void sendMessage(Message message)
+	public void sendMessageObject(Message message)
 	{
 		this._controller.sendMessageObject(message);
 	}
 
 	@Override
 	public void chatMessageEmpfangen(String message) 
-	{
-		String text = tfChatlog.getText()+"\n"+message;
-		tfChatlog.setText(text);
-		
+	{		
+		_chatlog.append(message+"\n");
+		tfChatlog.setText(_chatlog.toString());		
 	}
 
 
@@ -431,6 +517,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		{
 			benutzer.addElement(string);
 		}
+		benutzer.removeElement(txtUser.getText());
 		this.liUsers.setModel(benutzer);		
 	}
 
@@ -443,151 +530,181 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		{
 			raeume.addElement(string);
 		}
+		
 		this.liRooms.setModel(raeume);		
 	}
 
 
 	@Override
-	public void loginErgebnis(boolean status, String result, String name) 
+	public void loginErgebnis(boolean eingeloggt, String inhalt, String benutzername) 
 	{
-		if(status)
+		if(eingeloggt)
 		{
+			myUserName = benutzername;
+			txtUser.setText(benutzername);
+						
+			_chatlog.append(inhalt+"\n");
+			tfChatlog.setText(_chatlog.toString());
 			
-			myUserName = name;
-			txtUser.setText(name);
-			_chatlog.append(result);
+			//join mainlobby after login
+			sendMessageObject(new Message(3, myUserName, "mainlobby","", ""));
+			this.setModus("LoggedIn");
+		}
+		else
+		{			
+			_chatlog.append(inhalt+"\n");
+			tfChatlog.setText(_chatlog.toString());
+		}
+		
+	}
+	
+
+	@Override
+	public void logoutErgebnis(boolean ausgeloggt, String inhalt) 
+	{
+		if(ausgeloggt)
+		{
+			txtUser.setText("");
+			txtMainlobby.setText("");			
+			_chatlog.append(inhalt+"\n");
+			tfChatlog.setText(_chatlog.toString());
+			tfSubmit.setText("");
+			liRooms.setModel(new DefaultListModel());
+			liUsers.setModel(new DefaultListModel());
+			
+			//entsprechende Elemente entsperren
+			this.setModus("LoggedOut");
+		}
+	}
+
+	@Override
+	public void registrierungErgebnis(String inhalt) 
+	{			
+		tfChatlog.setText(_chatlog.append(inhalt+"\n").toString());	
+	}
+
+	@Override
+	public void joinErgebnis(boolean joined, String raumname, String inhalt) 
+	{
+		if(joined)
+		txtMainlobby.setText(raumname);		
+		tfChatlog.setText(_chatlog.append(inhalt+"\n").toString());
+	}
+
+	@Override
+	public void leaveErgebnis(boolean left, String inhalt) 
+	{
+		if(left)
+		tfChatlog.setText(_chatlog.append(inhalt+"\n").toString());			
+	}
+	
+	
+	private void sendMessage()
+	{
+		String text;
+		if(tfSubmit.getText().length() > 0)
+		{
+			String firstLetter = tfSubmit.getText().substring(0,1);
+			if(firstLetter.equals("/"))
+			{
+				if(tfSubmit.getText().length() >= 6)
+				{
+					String leave = tfSubmit.getText().substring(1,6);
+					if(leave.equals("leave"))
+					{
+						System.out.println(txtMainlobby.getText());
+						
+						if (txtMainlobby.getText().equals("mainlobby")) 
+						{
+							tfChatlog.setText(_chatlog.append("[Client -> Me] : You are already in the mainlobby"+"\n").toString());
+							tfSubmit.setText("");
+							return;
+						}
+						
+						sendMessageObject(new Message(4, myUserName, txtMainlobby.getText(),"", txtMainlobby.getText()));
+						sendMessageObject(new Message(3, myUserName, "mainlobby","", ""));
+					}
+					if(leave.equals("reset"))
+					{
+						myUserName =  txtUser.getText();							
+					}
+					
+					
+					String join = tfSubmit.getText().substring(1,5);						
+					if(join.equals("join"))
+					{
+						int length = tfSubmit.getText().length();
+						
+						String leerzeichen = tfSubmit.getText().substring(5,6);
+						
+						if(leerzeichen.equals(" "))
+						{
+							text = tfSubmit.getText().substring(6, length);								
+						}
+						else
+						{
+							text = tfSubmit.getText().substring(5, length);
+						}
+						
+						_raumname = text;
+						sendMessageObject(new Message(4, myUserName, txtMainlobby.getText(),"", txtMainlobby.getText()));
+						sendMessageObject(new Message(3, myUserName, text,"", ""));
+					}
+					
+					String name = tfSubmit.getText().substring(1,5);
+					if(name.equals("name"))
+					{
+						myUserName = tfSubmit.getText().substring(6, tfSubmit.getText().length());
+						
+					}
+					tfSubmit.setText("");
+					return;
+				}
+			}
+			//return; // alternativ
+		}
+		
+		text = tfSubmit.getText();
+		
+		if(text.replaceAll(" ", "").length() == 0)
+			return;
+		
+		//send Message if user is being selected
+		if(!_zielUserName.isEmpty())
+		{
+			sendMessageObject(new Message(0, myUserName, text, _zielUserName, ""));
+//			sendMessageObject(new Message(0, myUserName, text, "Richard", ""));
+			
+			if(!myUserName.equals(txtUser.getText()))
+			{
+				//sendMessageObject(new Message(0, "Me", text, myUserName, ""));
+				return; //mister x
+			}
+			text = "[Me -> "+_zielUserName+"] : "+text;
+			
+			_chatlog.append(text+"\n");
 			tfChatlog.setText(_chatlog.toString());
 		}
 		else
 		{
-			String chat = tfChatlog.getText();
-			chat = chat + "\n" + result;
-			tfChatlog.setText(chat);
+			sendMessageObject(new Message(0, myUserName, text, null, txtMainlobby.getText()));
+							
+//			_chatlog.append("[Me -> "+_raumname+"] : "+text+"\n");
+//			tfChatlog.setText(_chatlog.toString());
+			
 		}
-		
-		
-	}
-
-
-	@Override
-	public void logoutErgebnis(boolean status, String result) 
-	{
-		if(!status)
-		{
-			txtUser.setText("");
-			txtMainlobby.setText("");
-			String chat = tfChatlog.getText();
-			chat = chat + "\n" + result;
-		}
-	}
-
-
-	@Override
-	public void registrierungErgebnis(boolean status, String result) 
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void joinErgebnis(boolean result) 
-	{
-		if(result)
-		txtMainlobby.setText(_raumname);
-	}
-
-
-	@Override
-	public void leaveErgebnis(boolean result) 
-	{
-		if(result)
-		{
-			txtMainlobby.setText("mainlobby");
-		}
-		
+		tfSubmit.setText("");
 	}
 	
-	ActionListener sendMessage = new ActionListener() 
+	
+	ActionListener sendMessageListener = new ActionListener() 
 	{	
-		int x = 0;
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{		
-			x++;
-			System.out.println(x);
-			String text;
-			if(tfSubmit.getText().length() > 0)
-			{
-				
-				String firstLetter = tfSubmit.getText().substring(0,1);
-				if(firstLetter.equals("/"))
-				{
-					if(tfSubmit.getText().length() >= 6)
-					{
-						String leave = tfSubmit.getText().substring(1,6);
-						if(leave.equals("leave"))
-						{							
-							_controller.sendMessageObject(new Message(4, myUserName, "","", ""));
-							return;
-						}
-						
-						String join = tfSubmit.getText().substring(1,5);						
-						if(join.equals("join"))
-						{
-							int length = tfSubmit.getText().length();
-							
-							String leerzeichen = tfSubmit.getText().substring(5,6);
-							
-							if(leerzeichen.equals(" "))
-							{
-								text = tfSubmit.getText().substring(6, length);								
-							}
-							else
-							{
-								text = tfSubmit.getText().substring(5, length);
-							}
-							
-							_controller.sendMessageObject(new Message(3, myUserName, text,"", ""));
-							return;
-						}
-					}
-				}
-			}
-			
-			text = tfSubmit.getText();
-			//send Message if user is being selected
-			if(!_zielUserName.isEmpty())
-			{				
-				text = "[Me -> "+_zielUserName+"] : "+text;
-				
-				_controller.sendMessageObject(new Message(0, myUserName, text, _zielUserName, ""));
-				
-				String chatlog = tfChatlog.getText();
-				tfChatlog.setText(chatlog + "\n" + text);
-				return;
-			}
-			else
-			{
-				if(txtMainlobby.getText().equals("mainlobby"))
-				{
-					_controller.sendMessageObject(new Message(0, myUserName, text, "", ""));
-				}
-				else
-				{
-					_controller.sendMessageObject(new Message(0, myUserName, text, "", txtMainlobby.getText()));
-				}
-				
-				System.out.println(txtMainlobby.getText());
-				
-				text = "[Me -> "+_raumname+"] : "+text;
-				String chatlog = tfChatlog.getText();
-				tfChatlog.setText(chatlog + "\n" + text);
-				return;
-			}
+			sendMessage();			
 		}
 	};
-	
 	
 	ListSelectionListener selectedUserChanged = new ListSelectionListener() 
 	{		
@@ -598,22 +715,89 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 				_zielUserName = liUsers.getSelectedValue().toString();
 			else
 				_zielUserName = "";
+		}
+	};
+
+	private WindowListener windowListener = new WindowListener() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) 
+		{
+			sendMessageObject(new Message(6,myUserName,"", "", ""));
+			
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			sendMessageObject(new Message(6,myUserName,"", "", ""));
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
 			
 		}
 	};
-	private JMenuItem mntmConnectToServer;
 	
 	
 	
-	private JMenuItem getMntmConnectToServer() {
-		if (mntmConnectToServer == null) {
-			mntmConnectToServer = new JMenuItem("Connect to Server");
-			mntmConnectToServer.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					new ConnectToServerDialog(MainFrame.this, _controller);
-				}
-			});
+	public void setModus(String modus)
+	{
+		ArrayList elements;
+		if(modus.equals("AppStart"))
+		{
+			tfSubmit.setEnabled(false);
+			btnSend.setEnabled(false);
+			mntmRegister.setEnabled(false);
+			mntmLogin.setEnabled(false);
+			mntmLogout.setEnabled(false);
 		}
-		return mntmConnectToServer;
+		else if(modus.equals("ConnectedToServer"))
+		{
+			mntmConnectToServer.setEnabled(false);
+			mntmRegister.setEnabled(true);
+			mntmLogin.setEnabled(true);				
+		}
+		else if(modus.equals("LoggedIn"))
+		{
+			mntmRegister.setEnabled(false);
+			mntmLogin.setEnabled(false);
+			mntmLogout.setEnabled(true);
+			tfSubmit.setEnabled(true);
+			btnSend.setEnabled(true);
+		}
+		else if(modus.equals("LoggedOut"))
+		{
+			mntmRegister.setEnabled(true);
+			mntmLogin.setEnabled(true);
+			mntmLogout.setEnabled(false);
+			tfSubmit.setEnabled(false);
+			btnSend.setEnabled(false);
+		}
 	}
 }

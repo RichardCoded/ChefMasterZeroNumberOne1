@@ -8,11 +8,10 @@ public interface IViewAktualisieren
 	void benutzerListeErhalten(ArrayList<String> users);
 	void raeumeListeErhalten(ArrayList<String> rooms);
 	
-	void loginErgebnis(boolean status, String result, String name);
-	void logoutErgebnis(boolean status, String result);
-	void registrierungErgebnis(boolean status, String result);
+	void loginErgebnis(boolean eingeloggt, String inhalt, String benutzername);
+	void logoutErgebnis(boolean ausgeloggt, String inhalt);
+	void registrierungErgebnis(String inhalt);
 	
-	//Noch klären, wie Join und Leave genau ablaufen. ps. Serverteam ist schwul. 
-	void joinErgebnis(boolean result);
-	void leaveErgebnis(boolean result);
+	void joinErgebnis(boolean joined, String raumname, String inhalt);
+	void leaveErgebnis(boolean left, String inhalt);
 }

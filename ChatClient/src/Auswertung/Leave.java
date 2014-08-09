@@ -14,20 +14,13 @@ public class Leave implements IMessageAuswerten, IServerErrorAuswerten
 	@Override
 	public void auswerten(Message message) 
 	{
-		if(!message.getContent().contains("Error"))
-		{
-			_view.leaveErgebnis(true);
-		}
-		else
-		{
-			_view.leaveErgebnis(false);
-		}
+		_view.leaveErgebnis(true, StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override
 	public void errorAuswerten(Message message) 
 	{
-		
+		_view.leaveErgebnis(false, StaticServerAnswerResources.getChatOutputEvaluated(message).replaceFirst(this.getErrorType(), ""));
 	}
 
 	@Override
