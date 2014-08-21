@@ -1,62 +1,42 @@
 package View;
 
-import java.awt.GridBagLayout;
-
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.JScrollPane;
-
 import java.awt.GridBagConstraints;
-
-import javax.swing.JTextPane;
-
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
-import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.DefaultListModel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JButton;
-
-import java.awt.Component;
-
-import javax.swing.Box;
-
-import java.awt.Dimension;
-
-import javax.swing.JMenuItem;
-import javax.swing.JTextField;
-import javax.swing.JPanel;
-
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-
-import javax.swing.AbstractListModel;
 
 import Auswertung.AbstractAuswertung;
 import Auswertung.Benutzer;
 import Auswertung.Chatmessage;
-import Auswertung.IMessageAuswerten;
 import Auswertung.Raeume;
-import Auswertung.Register;
 import Auswertung.Servererror;
 import Auswertung.Serversuccess;
 import Controller.Controller;
 import Model.Message;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JScrollPane spChatlog;
@@ -70,7 +50,7 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	private JMenu mnConnection;
 	private JMenu mnHelp;
 	private JScrollPane spSubmit;
-	private JTextPane tfSubmit;
+	private JTextField tfSubmit;
 	private JButton btnSend;
 	private JMenuItem mntmCommandlist;
 	private JMenuItem mntmAbout;
@@ -306,18 +286,18 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		}
 		return spSubmit;
 	}
-	private JTextPane getTfSubmit() 
+	private JTextField getTfSubmit() 
 	{
 		if (tfSubmit == null) 
 		{
-			tfSubmit = new JTextPane();			
+			tfSubmit = new JTextField();			
 			tfSubmit.setText("");
 			tfSubmit.addKeyListener(new KeyAdapter() 
 			{
 				@Override
 		        public void keyPressed(KeyEvent e) 
 				{
-					if (e.getKeyCode() == 10) 
+					if (e.getKeyCode() == KeyEvent.VK_ENTER) 
 		            {
 						sendMessage(); // Fügt Zeilenumbruch hinzu, was buggy ist.
 		            }
@@ -657,7 +637,6 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 						myUserName = tfSubmit.getText().substring(6, tfSubmit.getText().length());
 						
 					}
-					tfSubmit.setText("");
 					return;
 				}
 			}
@@ -689,8 +668,8 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		{
 			sendMessageObject(new Message(0, myUserName, text, null, txtMainlobby.getText()));
 							
-//			_chatlog.append("[Me -> "+_raumname+"] : "+text+"\n");
-//			tfChatlog.setText(_chatlog.toString());
+			_chatlog.append("[Me -> "+_raumname+"] : "+text+"\n");
+			tfChatlog.setText(_chatlog.toString());
 			
 		}
 		tfSubmit.setText("");
@@ -722,26 +701,18 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		
 		@Override
 		public void windowOpened(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 		@Override
 		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 		@Override
 		public void windowDeiconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 		@Override
 		public void windowDeactivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 		@Override
@@ -753,14 +724,11 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		
 		@Override
 		public void windowClosed(WindowEvent e) {
-			// TODO Auto-generated method stub
 			sendMessageObject(new Message(6,myUserName,"", "", ""));
 		}
 		
 		@Override
 		public void windowActivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
 		}
 	};
 	
@@ -768,7 +736,6 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 	
 	public void setModus(String modus)
 	{
-		ArrayList elements;
 		if(modus.equals("AppStart"))
 		{
 			tfSubmit.setEnabled(false);
