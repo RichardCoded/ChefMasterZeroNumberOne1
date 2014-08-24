@@ -637,10 +637,11 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 						myUserName = tfSubmit.getText().substring(6, tfSubmit.getText().length());
 						
 					}
+					
+					tfSubmit.setText("");
 					return;
 				}
 			}
-			//return; // alternativ
 		}
 		
 		text = tfSubmit.getText();
@@ -652,13 +653,12 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		if(!_zielUserName.isEmpty())
 		{
 			sendMessageObject(new Message(0, myUserName, text, _zielUserName, ""));
-//			sendMessageObject(new Message(0, myUserName, text, "Richard", ""));
 			
 			if(!myUserName.equals(txtUser.getText()))
-			{
-				//sendMessageObject(new Message(0, "Me", text, myUserName, ""));
+			{				
 				return; //mister x
 			}
+			
 			text = "[Me -> "+_zielUserName+"] : "+text;
 			
 			_chatlog.append(text+"\n");
@@ -718,13 +718,19 @@ public class MainFrame extends JFrame implements IViewAktualisieren {
 		@Override
 		public void windowClosing(WindowEvent e) 
 		{
-			sendMessageObject(new Message(6,myUserName,"", "", ""));
-			
+			if(_controller.getServerConnectionStatus())
+			{
+				sendMessageObject(new Message(6,myUserName,"", "", ""));
+			}
 		}
 		
 		@Override
-		public void windowClosed(WindowEvent e) {
+		public void windowClosed(WindowEvent e) 
+		{
+			if(_controller.getServerConnectionStatus())
+			{
 			sendMessageObject(new Message(6,myUserName,"", "", ""));
+			}
 		}
 		
 		@Override

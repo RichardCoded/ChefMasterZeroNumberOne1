@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -70,28 +72,7 @@ public class CommandlistDialog extends JDialog {
 			contentPanel.add(lblPort, gbc_lblPort);
 		}
 		{
-			JLabel lblPrivateMessage = new JLabel("Private Message");
-			GridBagConstraints gbc_lblPrivateMessage = new GridBagConstraints();
-			gbc_lblPrivateMessage.insets = new Insets(0, 0, 5, 5);
-			gbc_lblPrivateMessage.anchor = GridBagConstraints.EAST;
-			gbc_lblPrivateMessage.gridx = 1;
-			gbc_lblPrivateMessage.gridy = 1;
-			contentPanel.add(lblPrivateMessage, gbc_lblPrivateMessage);
-		}
-		{
-			txtPort = new JTextField();
-			txtPort.setEditable(false);
-			txtPort.setText("/tell <USERNAME>");
-			GridBagConstraints gbc_txtPort = new GridBagConstraints();
-			gbc_txtPort.insets = new Insets(0, 0, 5, 5);
-			gbc_txtPort.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtPort.gridx = 2;
-			gbc_txtPort.gridy = 1;
-			contentPanel.add(txtPort, gbc_txtPort);
-			txtPort.setColumns(10);
-		}
-		{
-			JLabel lblUsername = new JLabel("Joining a room");
+			JLabel lblUsername = new JLabel("Joining a Room");
 			GridBagConstraints gbc_lblUsername = new GridBagConstraints();
 			gbc_lblUsername.anchor = GridBagConstraints.EAST;
 			gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
@@ -112,7 +93,7 @@ public class CommandlistDialog extends JDialog {
 			contentPanel.add(txtjoin, gbc_txtjoin);
 		}
 		{
-			JLabel lblCreatingARoom = new JLabel("Creating a room");
+			JLabel lblCreatingARoom = new JLabel("Creating a Room");
 			GridBagConstraints gbc_lblCreatingARoom = new GridBagConstraints();
 			gbc_lblCreatingARoom.anchor = GridBagConstraints.EAST;
 			gbc_lblCreatingARoom.insets = new Insets(0, 0, 5, 5);
@@ -131,27 +112,6 @@ public class CommandlistDialog extends JDialog {
 			gbc_txtjoin_1.gridx = 2;
 			gbc_txtjoin_1.gridy = 3;
 			contentPanel.add(txtjoin_1, gbc_txtjoin_1);
-		}
-		{
-			JLabel label = new JLabel("Joining a room");
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.insets = new Insets(0, 0, 5, 5);
-			gbc_label.anchor = GridBagConstraints.EAST;
-			gbc_label.gridx = 1;
-			gbc_label.gridy = 4;
-			contentPanel.add(label, gbc_label);
-		}
-		{
-			textField = new JTextField();
-			textField.setText("/join <ROOM>");
-			textField.setEditable(false);
-			textField.setColumns(10);
-			GridBagConstraints gbc_textField = new GridBagConstraints();
-			gbc_textField.insets = new Insets(0, 0, 5, 5);
-			gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField.gridx = 2;
-			gbc_textField.gridy = 4;
-			contentPanel.add(textField, gbc_textField);
 		}
 		{
 			JLabel lblReturnToMainlobby = new JLabel("Return to Mainlobby");
@@ -175,7 +135,7 @@ public class CommandlistDialog extends JDialog {
 			contentPanel.add(txtleave, gbc_txtleave);
 		}
 		{
-			JLabel label = new JLabel("Server");
+			JLabel label = new JLabel("Change Username");
 			GridBagConstraints gbc_label = new GridBagConstraints();
 			gbc_label.anchor = GridBagConstraints.EAST;
 			gbc_label.insets = new Insets(0, 0, 5, 5);
@@ -185,7 +145,7 @@ public class CommandlistDialog extends JDialog {
 		}
 		{
 			textField_4 = new JTextField();
-			textField_4.setText("Port");
+			textField_4.setText("/name <Name>");
 			textField_4.setEditable(false);
 			textField_4.setColumns(10);
 			GridBagConstraints gbc_textField_4 = new GridBagConstraints();
@@ -196,7 +156,7 @@ public class CommandlistDialog extends JDialog {
 			contentPanel.add(textField_4, gbc_textField_4);
 		}
 		{
-			JLabel label = new JLabel("Server");
+			JLabel label = new JLabel("Reset Username");
 			GridBagConstraints gbc_label = new GridBagConstraints();
 			gbc_label.anchor = GridBagConstraints.EAST;
 			gbc_label.insets = new Insets(0, 0, 5, 5);
@@ -206,7 +166,7 @@ public class CommandlistDialog extends JDialog {
 		}
 		{
 			textField_5 = new JTextField();
-			textField_5.setText("Port");
+			textField_5.setText("/reset");
 			textField_5.setEditable(false);
 			textField_5.setColumns(10);
 			GridBagConstraints gbc_textField_5 = new GridBagConstraints();
@@ -217,117 +177,20 @@ public class CommandlistDialog extends JDialog {
 			contentPanel.add(textField_5, gbc_textField_5);
 		}
 		{
-			JLabel label = new JLabel("Server");
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.anchor = GridBagConstraints.EAST;
-			gbc_label.insets = new Insets(0, 0, 5, 5);
-			gbc_label.gridx = 1;
-			gbc_label.gridy = 8;
-			contentPanel.add(label, gbc_label);
-		}
-		{
-			textField_6 = new JTextField();
-			textField_6.setText("Port");
-			textField_6.setEditable(false);
-			textField_6.setColumns(10);
-			GridBagConstraints gbc_textField_6 = new GridBagConstraints();
-			gbc_textField_6.insets = new Insets(0, 0, 5, 5);
-			gbc_textField_6.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_6.gridx = 2;
-			gbc_textField_6.gridy = 8;
-			contentPanel.add(textField_6, gbc_textField_6);
-		}
-		{
-			JLabel label = new JLabel("Server");
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.anchor = GridBagConstraints.EAST;
-			gbc_label.insets = new Insets(0, 0, 5, 5);
-			gbc_label.gridx = 1;
-			gbc_label.gridy = 9;
-			contentPanel.add(label, gbc_label);
-		}
-		{
-			textField_7 = new JTextField();
-			textField_7.setText("Port");
-			textField_7.setEditable(false);
-			textField_7.setColumns(10);
-			GridBagConstraints gbc_textField_7 = new GridBagConstraints();
-			gbc_textField_7.insets = new Insets(0, 0, 5, 5);
-			gbc_textField_7.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_7.gridx = 2;
-			gbc_textField_7.gridy = 9;
-			contentPanel.add(textField_7, gbc_textField_7);
-		}
-		{
-			JLabel label = new JLabel("Server");
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.anchor = GridBagConstraints.EAST;
-			gbc_label.insets = new Insets(0, 0, 5, 5);
-			gbc_label.gridx = 1;
-			gbc_label.gridy = 10;
-			contentPanel.add(label, gbc_label);
-		}
-		{
-			textField_8 = new JTextField();
-			textField_8.setText("Port");
-			textField_8.setEditable(false);
-			textField_8.setColumns(10);
-			GridBagConstraints gbc_textField_8 = new GridBagConstraints();
-			gbc_textField_8.insets = new Insets(0, 0, 5, 5);
-			gbc_textField_8.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_8.gridx = 2;
-			gbc_textField_8.gridy = 10;
-			contentPanel.add(textField_8, gbc_textField_8);
-		}
-		{
-			JLabel label = new JLabel("Server");
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.anchor = GridBagConstraints.EAST;
-			gbc_label.insets = new Insets(0, 0, 5, 5);
-			gbc_label.gridx = 1;
-			gbc_label.gridy = 11;
-			contentPanel.add(label, gbc_label);
-		}
-		{
-			textField_9 = new JTextField();
-			textField_9.setText("Port");
-			textField_9.setEditable(false);
-			textField_9.setColumns(10);
-			GridBagConstraints gbc_textField_9 = new GridBagConstraints();
-			gbc_textField_9.insets = new Insets(0, 0, 5, 5);
-			gbc_textField_9.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_9.gridx = 2;
-			gbc_textField_9.gridy = 11;
-			contentPanel.add(textField_9, gbc_textField_9);
-		}
-		{
-			JLabel label = new JLabel("Server");
-			GridBagConstraints gbc_label = new GridBagConstraints();
-			gbc_label.anchor = GridBagConstraints.EAST;
-			gbc_label.insets = new Insets(0, 0, 5, 5);
-			gbc_label.gridx = 1;
-			gbc_label.gridy = 12;
-			contentPanel.add(label, gbc_label);
-		}
-		{
-			textField_10 = new JTextField();
-			textField_10.setText("Port");
-			textField_10.setEditable(false);
-			textField_10.setColumns(10);
-			GridBagConstraints gbc_textField_10 = new GridBagConstraints();
-			gbc_textField_10.insets = new Insets(0, 0, 5, 5);
-			gbc_textField_10.fill = GridBagConstraints.HORIZONTAL;
-			gbc_textField_10.gridx = 2;
-			gbc_textField_10.gridy = 12;
-			contentPanel.add(textField_10, gbc_textField_10);
-		}
-		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Thanks, Bro!");
+				JButton okButton = new JButton("Close");
 				okButton.setActionCommand("OK");
+				okButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) 
+					{
+						dispose();						
+					}
+				});
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
